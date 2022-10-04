@@ -18,6 +18,19 @@ curseur.execute ('''CREATE TABLE ordinateur
 ''')
 
 
+#creation de la base de données carnet de pret (reference du pret, > id user, id ordinateur)
+curseur.execute ('''CREATE TABLE carnet_pret
+                (
+                reference TEXT,
+                id_user TEXT,
+                id_ordinateur TEXT,
+                FOREIGN KEY (user_id)
+                    references user(id)
+                 FOREIGN KEY (ordinateur_id)
+                    references ordinateur(id)   
+                    ON DELETE CASCADE
+                )
+''')
 
 
 connexion.commit()
