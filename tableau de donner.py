@@ -3,18 +3,17 @@ import sqlite3
 connexion = sqlite3.Connection("bdd.sql")
 curseur = connexion.cursor()
 
-def crée_tableaux () :
-    """ fonction pour crée les tableau dans la base de donner 
+""" fonction pour crée les tableau dans la base de donner 
         les tableau crée sont :
             - Ticket
             - Chat_Ticket
             - ordinateur
             - carnet_pret
             - user
-     """
+"""
 
-     # creation de table "Ticket" (id, date_de_création, id_pret, status, message, foreign key)
-    curseur.execute ('''CREATE TABLE Ticket
+# creation de table "Ticket" (id, date_de_création, id_pret, status, message, foreign key)
+curseur.execute ('''CREATE TABLE Ticket
                     (
                         id INT PRIMARY KEY,
                         date_de_création DATE,
@@ -25,8 +24,8 @@ def crée_tableaux () :
                             REFERENCES Chat_Ticket(id)
                     )
     ''')
-    # creation de la table "Chat_Ticket" (id, id_ticket, auteur, message, 2 foreign key)
-    curseur.execute ('''CREATE TABLE Chat_Ticket
+# creation de la table "Chat_Ticket" (id, id_ticket, auteur, message, 2 foreign key)
+curseur.execute ('''CREATE TABLE Chat_Ticket
                     (
                         id INTEGER PRIMARY KEY,
                         id_ticket INT,
@@ -42,7 +41,7 @@ def crée_tableaux () :
 
 
     #creation de la table "ordinateur" ( id, marque, processeur, carte graphique, ram, disque)
-    curseur.execute ('''CREATE TABLE ordinateur
+curseur.execute ('''CREATE TABLE ordinateur
                     (
                         id INTEGER PRIMARY KEY,
                         marque TEXT,
@@ -56,7 +55,7 @@ def crée_tableaux () :
 
 
     #creation de la base de données carnet de pret (reference du pret, > id user, id ordinateur)
-    curseur.execute ('''CREATE TABLE carnet_pret
+curseur.execute ('''CREATE TABLE carnet_pret
                     (
                         reference_pc INT PRIMARY KEY,
                         id_user INT,
@@ -69,7 +68,7 @@ def crée_tableaux () :
     ''')
 
      # creation de la table "user" '(id, role, prenom, nom, mdp)
-    curseur.execute('''
+curseur.execute('''
                     CREATE TABLE user
                     (
                         id INTEGER PRIMARY KEY,
@@ -81,7 +80,6 @@ def crée_tableaux () :
     '''
     )
 
-    connexion.commit()
-    connexion.close()
+connexion.commit()
+connexion.close()
 
-crée_tableaux()
