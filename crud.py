@@ -1,39 +1,45 @@
-from distutils.util import execute
+
 import sqlite3
-connexion = sqlite3.connect ('bdd.db')
+from types import NoneType
+
+
+connexion = sqlite3.Connection("bdd.db")
 curseur = connexion.cursor()
 
-
-#creation de la table "ordinateur" ( id, marque, processeur, carte graphique, ram, disque)
-curseur.execute ('''CREATE TABLE ordinateur
-                (
-                id INTEGER PRIMARY KEY,
-                marque TEXT,
-                processeur TEXT,
-                carte graphique TEXT,
-                ram TEXT,
-                disque TEXT
-               
-                )
-''')
+#crer un ordinateur( id, marque, processeur, carte_graphique, ram, disque)
+def creer_ordinateur ( marque, processeur, carte_graphique, ram, disque):
+    connexion = sqlite3.Connection ('bdd.db')
+    curseur = connexion.cursor()   
+    curseur.execute("INSERT INTO ordinateur VALUES (?, ?, ?, ?, ?, ?)" , (None, marque, processeur, carte_graphique, ram, disque))
+    connexion.commit()
+    connexion.close()
 
 
-#creation de la base de données carnet de pret (reference du pret, > id user, id ordinateur)
-curseur.execute ('''CREATE TABLE carnet_pret
-                (
-                reference TEXT,
-                id_user TEXT,
-                id_ordinateur TEXT,
-                FOREIGN KEY (user_id)
-                    references user(id)
-                 FOREIGN KEY (ordinateur_id)
-                    references ordinateur(id)   
-                    ON DELETE CASCADE
-                )
-''')
+#supprimer un ordinateur par son id
+def delete_ordinateur ( id):
+    connexion = sqlite3.Connection ('bdd.db')
+    curseur = connexion.cursor()   
+    curseur.execute(("DELETE FROM ordinateur WHERE id=?"), (id,))
+    connexion.commit()
+    connexion.close()
 
 
-connexion.commit()
-connexion.close()
+#creer un pret sur carnet_carnet(reference_pc, id_user, id_ordinateur)
+def creer_carnet(reference_pc, id_user, id_ordinateur):
+    connexion = sqlite3.Connection ('bdd.db')
+    curseur = connexion.cursor()   
+    curseur.execute("INSERT INTO carnet_pret VALUES (?, ?, ?)" , (reference_pc, id_user, id_ordinateur))
+    connexion.commit()
+    connexion.close()
 
-#def get_admin():
+
+##supprimer un pret  par sa refrence_pc
+def delete_carnet(reference_pc):
+    connexion = sqlite3.Connection ('bdd.db')
+    curseur = connexion.cursor()   
+    curseur.execute (("DELETE FROM carnet_pret WHERE reference_pc=?"), (reference_pc,))
+    connexion.commit()
+    connexion.close()
+
+
+
