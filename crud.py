@@ -14,7 +14,7 @@ def creer_user (prenom, nom, mdp, mail) :
     curseur = connexion.cursor()
 
     mdp += """
-                What's new Scooby-Doo?1
+                What's new Scooby-Doo?
                 We're coming after you
                 You're gonna solve that mystery
                 I see you Scooby-Doo
@@ -64,7 +64,7 @@ def creer_admin (prenom, nom, mdp, mail) :
     curseur = connexion.cursor()
 
     mdp += """
-                What's new Scooby-Doo?1
+                What's new Scooby-Doo?
                 We're coming after you
                 You're gonna solve that mystery
                 I see you Scooby-Doo
@@ -130,7 +130,7 @@ def verif_user (mail, mdp) :
     curseur = connexion.cursor()
 
     mdp += """
-                What's new Scooby-Doo?1
+                What's new Scooby-Doo?
                 We're coming after you
                 You're gonna solve that mystery
                 I see you Scooby-Doo
