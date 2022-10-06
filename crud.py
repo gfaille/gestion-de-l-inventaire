@@ -5,7 +5,7 @@ from types import NoneType
 
 connexion = sqlite3.Connection("bdd.db")
 curseur = connexion.cursor()
-
+'''
 #crer un ordinateur( id, marque, processeur, carte_graphique, ram, disque)
 def creer_ordinateur ( marque, processeur, carte_graphique, ram, disque):
     connexion = sqlite3.Connection ('bdd.db')
@@ -40,6 +40,29 @@ def delete_carnet(reference_pc):
     curseur.execute (("DELETE FROM carnet_pret WHERE reference_pc=?"), (reference_pc,))
     connexion.commit()
     connexion.close()
+'''
+
+#sortir les infos d'une fiche de pret avec id
+def select_carnet(reference_pc):
+    connexion = sqlite3.connect ('bdd.db')
+    curseur = connexion.cursor()   
+    curseur.execute ("SELECT * FROM carnet_pret WHERE reference_pc=? ", (reference_pc,))
+    print (curseur.fetchone())
+    reponse=curseur.fetchone()
+    connexion.commit()
+    connexion.close() 
+    return reponse
 
 
+#sortir les infos d'un ordinateur avec id
+def select_ordinateur(id):
+    connexion = sqlite3.connect ('bdd.db')
+    curseur = connexion.cursor()   
+    curseur.execute ("SELECT * FROM ordinateur WHERE id=? ", (id,))
+    print (curseur.fetchone())
+    reponse=curseur.fetchone()
+    connexion.commit()
+    connexion.close() 
+    return reponse
 
+select_ordinateur(4)
