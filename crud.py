@@ -12,7 +12,41 @@ def creer_user (prenom, nom, mdp, mail) :
     connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 0, prenom, nom, mdp, mail))
+    mdp += """
+                What's new Scooby-Doo?1
+                We're coming after you
+                You're gonna solve that mystery
+                I see you Scooby-Doo
+                The trail leads back to you
+                What's new Scooby-Doo?
+                
+                What's new Scooby-Doo?
+                We're gonna follow you
+                You're gonna solve that mystery
+                We see you Scooby-Doo
+                We're coming after you
+                What's new Scooby-Doo?
+                
+                Don't look back, you may find another clue
+                The Scooby snacks will be waiting here for you
+                
+                What's new Scooby-Doo?
+                We're coming after you
+                You're gonna solve that mystery
+                I see you Scooby-Doo
+                The trail leads back to you
+                What's new Scooby-Doo?
+                
+                Na na na na na
+                Na na na na na
+                Na na na na na na na
+                Na na na na na
+                Na na na na na
+                What's new Scooby-Doo?!
+            """
+    mdp_crypter = hashlib.sha256(mdp.encode()).hexdigest()
+
+    curseur.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 0, prenom, nom, mdp_crypter, mail))
     connexion.commit()
     connexion.close()
 
@@ -27,7 +61,41 @@ def creer_admin (prenom, nom, mdp, mail) :
     connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 1, prenom, nom, mdp, mail))
+    mdp += """
+                What's new Scooby-Doo?1
+                We're coming after you
+                You're gonna solve that mystery
+                I see you Scooby-Doo
+                The trail leads back to you
+                What's new Scooby-Doo?
+                
+                What's new Scooby-Doo?
+                We're gonna follow you
+                You're gonna solve that mystery
+                We see you Scooby-Doo
+                We're coming after you
+                What's new Scooby-Doo?
+                
+                Don't look back, you may find another clue
+                The Scooby snacks will be waiting here for you
+                
+                What's new Scooby-Doo?
+                We're coming after you
+                You're gonna solve that mystery
+                I see you Scooby-Doo
+                The trail leads back to you
+                What's new Scooby-Doo?
+                
+                Na na na na na
+                Na na na na na
+                Na na na na na na na
+                Na na na na na
+                Na na na na na
+                What's new Scooby-Doo?!
+            """
+    mdp_crypter = hashlib.sha256(mdp.encode()).hexdigest()
+
+    curseur.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 1, prenom, nom, mdp_crypter, mail))
     connexion.commit()
     connexion.close()
 
@@ -58,7 +126,41 @@ def verif_user (mail, mdp) :
     connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("SELECT * FROM user WHERE mail = ? AND mdp = ?", (mail, mdp, ))
+    mdp += """
+                What's new Scooby-Doo?1
+                We're coming after you
+                You're gonna solve that mystery
+                I see you Scooby-Doo
+                The trail leads back to you
+                What's new Scooby-Doo?
+                
+                What's new Scooby-Doo?
+                We're gonna follow you
+                You're gonna solve that mystery
+                We see you Scooby-Doo
+                We're coming after you
+                What's new Scooby-Doo?
+                
+                Don't look back, you may find another clue
+                The Scooby snacks will be waiting here for you
+                
+                What's new Scooby-Doo?
+                We're coming after you
+                You're gonna solve that mystery
+                I see you Scooby-Doo
+                The trail leads back to you
+                What's new Scooby-Doo?
+                
+                Na na na na na
+                Na na na na na
+                Na na na na na na na
+                Na na na na na
+                Na na na na na
+                What's new Scooby-Doo?!
+            """
+    mdp_crypter = hashlib.sha256(mdp.encode()).hexdigest()
+
+    curseur.execute("SELECT * FROM user WHERE mail = ? AND mdp = ?", (mail, mdp_crypter, ))
     reponse = curseur.fetchone()
     connexion.close()
     return reponse
