@@ -1,6 +1,6 @@
 import crud 
 
-def creation_compte (user, admin) :
+def creation_compte (choix) :
     """ fonction pour crée un compte pour l'utilisateur ou administrateur
         si c'est l'utilisateur :
             - on lui défini son rôle
@@ -15,7 +15,7 @@ def creation_compte (user, admin) :
                 alors on l'enregistre dans la base de données 
             - sinon on demande de rentrez de nouveaux les information      
     """
-    if user == 1 :
+    if choix == 1 :
         
 
         prenom = input("entrez vôtre prenom : ")
@@ -26,11 +26,11 @@ def creation_compte (user, admin) :
 
         if mdp == mdp2 :
             crud.creer_user(prenom, nom, mdp, mail)
-            return
+            return print("inscription reussi")
         else :
             return print("Veuillez avoir les deux mot de passe identique")
 
-    elif admin == 2 :
+    elif choix == 2 :
         
         role = 1
 
@@ -80,6 +80,7 @@ def connexion_admin () :
     else :
         return crud.verif_user(mail, mdp)
 
+
 def nb_pc () :
     """ fonction qui permet d'avoir le nombre total de pc"""
 
@@ -88,6 +89,3 @@ def nb_tickets () :
 
 def nb_tickets_terminer () :
     """ fonction qui permet de calculer le nombre de ticket total terminer"""
-
-
-    
