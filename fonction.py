@@ -81,8 +81,13 @@ def connexion_admin () :
         return crud.verif_user(mail, mdp)
 
 def nb_pc () :
-    """ fonction qui permet d'avoir le nombre total de pc
+    """ fonction qui permet d'avoir le nombre total de pc"""
 
-    """
+def nb_tickets () :
+    """ fonction qui permet de calculer le nombre de ticket total en cours"""
+
+def nb_tickets_terminer () :
+    """ fonction qui permet de calculer le nombre de ticket total terminer"""
+
 
     
