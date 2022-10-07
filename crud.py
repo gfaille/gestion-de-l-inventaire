@@ -233,4 +233,38 @@ def select_ordinateur(id):
     connexion.close() 
     return reponse
 
-select_ordinateur(4)
+"""Creation d'un ticket avec l'id, la date de cration du ticket, id du pret, son status ainsi que le message"""
+def creer_ticket(date_de_creation, id_pret, status, message):
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute("INSERT INTO Ticket VALUES (?, ?, ?, ?, ?)", (None, date_de_creation, id_pret, status, message))
+    connexion.commit()
+    connexion.close()
+
+def select_ticket(id):
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute("SELECT * FROM Ticket WHERE id =?", (id, ))
+    resultat = curseur.fetchone()
+
+    connexion.close()
+    return resultat
+
+def supprimer_ticket(id):
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute("DELETE FROM Ticket WHERE id=?", (id, ))
+    connexion.commit()
+    connexion.close()
+
+def mise_a_jour(status):
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute("""UPDATE Ticket SET status =? WHERE id =?""", (status, ))
+   
+    connexion.commit()
+    connexion.close()
