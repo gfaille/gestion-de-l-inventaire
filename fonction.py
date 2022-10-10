@@ -1,52 +1,27 @@
 import crud 
+import os
 
-def creation_compte (choix) :
+def creation_user () :
     """ fonction pour crée un compte pour l'utilisateur ou administrateur
         si c'est l'utilisateur :
             - on lui défini son rôle
             - on lui demande c'est information confidenciel (prenom, nom, mail, mot de passe)
             - on verifie si les deux mot de passe corresponde :
                 alors on l'enregistre dans la base de données 
-            - sinon on demande de rentrez de nouveaux les information 
-        et si c'est l'admin :
-            - on defini son rôle
-            - on lui demande c'est information confidenciel (prenom, nom, mail, mot de passe)
-            - on verifie si les deux mot de passe corresponde :
-                alors on l'enregistre dans la base de données 
             - sinon on demande de rentrez de nouveaux les information      
     """
-    if choix == 1 :
         
+    prenom = input("entrez vôtre prenom : ")
+    nom = input("entrez vôtre nom : ")
+    mail = input("entrez vôtre mail : ")
+    mdp = input("entrez vôtre mot de passe : ")
+    mdp2 = input("confirmer vôtre mot de passe : ")
 
-        prenom = input("entrez vôtre prenom : ")
-        nom = input("entrez vôtre nom : ")
-        mail = input("entrez vôtre mail : ")
-        mdp = input("entrez vôtre mot de passe : ")
-        mdp2 = input("confirmer vôtre mot de passe : ")
-
-        if mdp == mdp2 :
-            crud.creer_user(prenom, nom, mdp, mail)
-            return print("inscription reussi")
-        else :
-            return print("Veuillez avoir les deux mot de passe identique")
-
-    elif choix == 2 :
-        
-        role = 1
-
-        prenom = input("entrez vôtre prenom : ")
-        nom = input("entrez vôtre nom : ")
-        mail = input("entrez vôtre mail : ")
-        mdp = input("entrez vôtre mot de passe : ")
-        mdp2 = input("confirmer vôtre mot de passe : ")
-
-        if mdp == mdp2 :
-            crud.creer_user(role, prenom, nom, mdp, mail)
-            return
-        else :
-            return print("Veuillez avoir les deux mot de passe identique")
+    if mdp == mdp2 :
+        crud.creer_user(prenom, nom, mdp, mail)
+        return print("inscription reussi")
     else :
-        print("Veuillez choisir un chiffre correct")
+        return print("Veuillez avoir les deux mot de passe identique")
 
 def connexion_user () :
     """ fonction pour la connexion utilisateur
@@ -59,10 +34,8 @@ def connexion_user () :
     mail = input("entrez vôtre mail : ")
     mdp = input("entrez vôtre mot de passe : ")
 
-    if  crud.verif_user(mail, mdp) == None :
-        return print("connexion echouée")
-    else :
-        return crud.verif_user(mail, mdp)
+    return crud.verif_user(mail, mdp)
+
 
 def connexion_admin () :
     """ fonction pour la connexion administrateur
@@ -80,12 +53,10 @@ def connexion_admin () :
     else :
         return crud.verif_user(mail, mdp)
 
+def calcul_nb_pc () :
+    pass
 
-def nb_pc () :
-    """ fonction qui permet d'avoir le nombre total de pc"""
-
-def nb_tickets () :
-    """ fonction qui permet de calculer le nombre de ticket total en cours"""
-
-def nb_tickets_terminer () :
-    """ fonction qui permet de calculer le nombre de ticket total terminer"""
+def afficher_erreur () :
+    os.system("clear")
+    print("veuillez entrez une commande valide !")
+    os.system("clear")

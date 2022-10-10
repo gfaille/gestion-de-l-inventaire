@@ -227,9 +227,7 @@ def select_ordinateur(id):
     connexion = sqlite3.connect ('bdd.db')
     curseur = connexion.cursor()   
     curseur.execute ("SELECT * FROM ordinateur WHERE id=? ", (id,))
-    print (curseur.fetchone())
-    reponse=curseur.fetchone()
-    connexion.commit()
+    reponse=curseur.fetchall()
     connexion.close() 
     return reponse
 
@@ -246,8 +244,11 @@ def select_ticket(id):
     connexion = sqlite3.connect("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("SELECT * FROM Ticket WHERE id =?", (id, ))
-    resultat = curseur.fetchone()
+    curseur.execute(""" SELECT * FROM Ticket 
+                        INNER JOIN carnet_pret 
+                            ON carnet_pret.reference = Ticket 
+                        WHERE id_user = ?""", (id, ))
+    resultat = curseur.fetchall()
 
     connexion.close()
     return resultat
