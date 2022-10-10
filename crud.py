@@ -51,7 +51,7 @@ def creer_user (prenom, nom, mdp, mail) :
     connexion.commit()
     connexion.close()
 
-def creer_admin (prenom, nom, mdp, mail) :
+def creer_admin () :
     """ la fonction pour créer un admin (prenom, nom, mdp) :
         - connexion a la base de donner
         - salage + hashage de mot de passe
@@ -62,42 +62,44 @@ def creer_admin (prenom, nom, mdp, mail) :
 
     connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
-
+    
+    mdp = "root"
     mdp += """
-                What's new Scooby-Doo?
-                We're coming after you
-                You're gonna solve that mystery
-                I see you Scooby-Doo
-                The trail leads back to you
-                What's new Scooby-Doo?
-                
-                What's new Scooby-Doo?
-                We're gonna follow you
-                You're gonna solve that mystery
-                We see you Scooby-Doo
-                We're coming after you
-                What's new Scooby-Doo?
-                
-                Don't look back, you may find another clue
-                The Scooby snacks will be waiting here for you
-                
-                What's new Scooby-Doo?
-                We're coming after you
-                You're gonna solve that mystery
-                I see you Scooby-Doo
-                The trail leads back to you
-                What's new Scooby-Doo?
-                
-                Na na na na na
-                Na na na na na
-                Na na na na na na na
-                Na na na na na
-                Na na na na na
-                What's new Scooby-Doo?!
-            """
+            What's new Scooby-Doo?
+            We're coming after you
+            You're gonna solve that mystery
+            I see you Scooby-Doo
+            The trail leads back to you
+            What's new Scooby-Doo?
+            
+            What's new Scooby-Doo?
+            We're gonna follow you
+            You're gonna solve that mystery
+            We see you Scooby-Doo
+            We're coming after you
+            What's new Scooby-Doo?
+            
+            Don't look back, you may find another clue
+            The Scooby snacks will be waiting here for you
+            
+            What's new Scooby-Doo?
+            We're coming after you
+            You're gonna solve that mystery
+            I see you Scooby-Doo
+            The trail leads back to you
+            What's new Scooby-Doo?
+            
+            Na na na na na
+            Na na na na na
+            Na na na na na na na
+            Na na na na na
+            Na na na na na
+            What's new Scooby-Doo?!
+        """
+
     mdp_crypter = hashlib.sha256(mdp.encode()).hexdigest()
 
-    curseur.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 1, prenom, nom, mdp_crypter, mail))
+    curseur.execute(" INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 1, "root", "root", mdp_crypter, "root@admin.fr"))
     connexion.commit()
     connexion.close()
 
@@ -166,15 +168,6 @@ def verif_user (mail, mdp) :
     reponse = curseur.fetchone()
     connexion.close()
     return reponse
-
-def changer_mdp (mdp) :
-
-    connexion = sqlite3.Connection("bdd.sql")
-    curseur = connexion.cursor()
-
-    curseur.execute("UPDATE user SET mdp = ? WHERE mdp <> ?", (mdp))
-    connexion.commit()
-    connexion.close()
     
 #crer un ordinateur( id, marque, processeur, carte_graphique, ram, disque)
 def creer_ordinateur ( marque, processeur, carte_graphique, ram, disque):

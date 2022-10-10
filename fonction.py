@@ -36,27 +36,8 @@ def connexion_user () :
 
     return crud.verif_user(mail, mdp)
 
-
-def connexion_admin () :
-    """ fonction pour la connexion administrateur
-        on demande le mail et le mot de passe 
-        si crud.verif_user renvoi none 
-            retourne connexion echouée
-        sinon renvoi la ligne de la base de donnée 
-    """
-
-    mail = input("entrez vôtre mail : ")
-    mdp = input("entrez vôtre mot de passe : ")
-
-    if crud.verif_user(mail, mdp) == None :
-        return print("connexion echouée")
-    else :
-        return crud.verif_user(mail, mdp)
-
-def calcul_nb_pc () :
-    pass
-
 def afficher_erreur () :
     os.system("clear")
     print("veuillez entrez une commande valide !")
-    os.system("clear")
+
+#crud.creer_admin()

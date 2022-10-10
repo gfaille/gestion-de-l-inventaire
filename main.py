@@ -1,4 +1,6 @@
+from signal import pause
 import fonction
+import crud
 import os
 
 Quitter = False
@@ -25,11 +27,15 @@ while True :
 
         else :
 
-            if user[2] == 1 :
+            if user[1] == 1 :
 
                 #écran accueil admin
                 while True :
-                    pass
+                    
+                    print("Statistique : ")
+                    print("Nombre de pc en prêts : " + crud.calcul_pc())
+                    print("Nombre de ticket en cours : " + crud.ticket_en_cours("en cours"))
+                    print("Nombre de ticket terminés : " + crud.ticket_en_cours("terminé"))
             
             else :
 
