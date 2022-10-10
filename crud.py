@@ -113,6 +113,8 @@ def suppr_user (id) :
     curseur = connexion.cursor()
 
     curseur.execute("DELETE FROM user WHERE id = ?", (id, ))
+    connexion.commit()
+    connexion.close()
 
 def verif_user (mail, mdp) :
     """ la fonction pour verifier l'utilisateur (mail, mdp)
@@ -246,7 +248,7 @@ def select_ticket(id):
 
     curseur.execute(""" SELECT * FROM Ticket 
                         INNER JOIN carnet_pret 
-                            ON carnet_pret.reference = Ticket 
+                            ON carnet_pret.reference_pc = Ticket.id_pret
                         WHERE id_user = ?""", (id, ))
     resultat = curseur.fetchall()
 
@@ -269,3 +271,21 @@ def mise_a_jour(status):
    
     connexion.commit()
     connexion.close()
+
+def calcul_pc () :
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute(" SELECT COUNT() FROM carnet_pret")
+    resultat = curseur.fetchone()
+    connexion.close()
+    return resultat
+
+def ticket_en_cours (status) :
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute(" SELECT COUNT() FROM Ticket WHERE status = ?", (status, ))
+    resultat = curseur.fetchone()
+    connexion.close
+    return resultat
