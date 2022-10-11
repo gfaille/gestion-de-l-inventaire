@@ -37,15 +37,51 @@ def connexion_user () :
     return crud.verif_user(mail, mdp)
 
 def afficher_erreur () :
-    os.system("clear")
+    #os.system("clear")
     print("veuillez entrez une commande valide !")
 
-def ajout_ordinnateur():
-   
-    marque=input ("Entrez la marque de l'ordinateur")
-    processeur= input("Entrez le type de processeur")
-    carte_graphique=input ("Entrez la reference de la carte graphique")
-    ram=input ("Entrez la capacité de la ram")
-    disque=input ("Entrez la capacite du disque dur")
+def creer_admin () :
+    """ fonction qui creer un admin """
+    crud.creer_admin()
+
+def ajout_ordinnateur() :
+    """ ajouter un ordinnateur dans la base de données (seulement l'admin)"""
+
+    marque = input ("Entrez la marque de l'ordinateur : ")
+    processeur = input("Entrez le type de processeur : ")
+    carte_graphique = input ("Entrez la reference de la carte graphique : ")
+    ram = input ("Entrez la capacité de la ram : ")
+    disque = input ("Entrez la capacite du disque dur : ")
 
     return crud.creer_ordinateur(marque, processeur, carte_graphique, ram, disque)
+
+def ajout_pc_user () :
+    """ fonction pour ajouter un pc a un utilisateur"""
+
+    ref = input("entrez la référence du pc : ")
+    id_user = input("entrez l'id de l'utilisateur : ")
+    id_pc = input("entrez l'id du pc : ")
+
+    return crud.creer_carnet(ref, id_user, id_pc)
+
+def ticket () :
+    """crée un ticket
+
+    Returns:
+        string: ajout de la référence du pc et le message
+    """
+
+    ref = input("reference pc")
+    message = input("ecrire message")
+
+    return crud.creer_ticket(ref, message)
+
+def chat () :
+
+    chat_bot = input("Entrez votre message ici : ")
+
+    return crud.chat_ticket(chat_bot)
+
+
+#ticket()
+#creer_admin()
