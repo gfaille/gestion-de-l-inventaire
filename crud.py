@@ -1,5 +1,6 @@
 import sqlite3
 import hashlib
+from datetime import datetime
 
 def creer_user (prenom, nom, mdp, mail) :
     """ la fonction pour un créer utilisateur (prenom, nom, mdp) : 
@@ -51,7 +52,7 @@ def creer_user (prenom, nom, mdp, mail) :
     connexion.commit()
     connexion.close()
 
-def creer_admin (prenom, nom, mdp, mail) :
+def creer_admin () :
     """ la fonction pour créer un admin (prenom, nom, mdp) :
         - connexion a la base de donner
         - salage + hashage de mot de passe
@@ -62,42 +63,44 @@ def creer_admin (prenom, nom, mdp, mail) :
 
     connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
-
+    
+    mdp = "root"
     mdp += """
-                What's new Scooby-Doo?
-                We're coming after you
-                You're gonna solve that mystery
-                I see you Scooby-Doo
-                The trail leads back to you
-                What's new Scooby-Doo?
-                
-                What's new Scooby-Doo?
-                We're gonna follow you
-                You're gonna solve that mystery
-                We see you Scooby-Doo
-                We're coming after you
-                What's new Scooby-Doo?
-                
-                Don't look back, you may find another clue
-                The Scooby snacks will be waiting here for you
-                
-                What's new Scooby-Doo?
-                We're coming after you
-                You're gonna solve that mystery
-                I see you Scooby-Doo
-                The trail leads back to you
-                What's new Scooby-Doo?
-                
-                Na na na na na
-                Na na na na na
-                Na na na na na na na
-                Na na na na na
-                Na na na na na
-                What's new Scooby-Doo?!
-            """
+            What's new Scooby-Doo?
+            We're coming after you
+            You're gonna solve that mystery
+            I see you Scooby-Doo
+            The trail leads back to you
+            What's new Scooby-Doo?
+            
+            What's new Scooby-Doo?
+            We're gonna follow you
+            You're gonna solve that mystery
+            We see you Scooby-Doo
+            We're coming after you
+            What's new Scooby-Doo?
+            
+            Don't look back, you may find another clue
+            The Scooby snacks will be waiting here for you
+            
+            What's new Scooby-Doo?
+            We're coming after you
+            You're gonna solve that mystery
+            I see you Scooby-Doo
+            The trail leads back to you
+            What's new Scooby-Doo?
+            
+            Na na na na na
+            Na na na na na
+            Na na na na na na na
+            Na na na na na
+            Na na na na na
+            What's new Scooby-Doo?!
+        """
+
     mdp_crypter = hashlib.sha256(mdp.encode()).hexdigest()
 
-    curseur.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 1, prenom, nom, mdp_crypter, mail))
+    curseur.execute(" INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)", (None, 1, "root", "root", mdp_crypter, "root@admin.fr"))
     connexion.commit()
     connexion.close()
 
@@ -113,6 +116,8 @@ def suppr_user (id) :
     curseur = connexion.cursor()
 
     curseur.execute("DELETE FROM user WHERE id = ?", (id, ))
+    connexion.commit()
+    connexion.close()
 
 def verif_user (mail, mdp) :
     """ la fonction pour verifier l'utilisateur (mail, mdp)
@@ -164,15 +169,6 @@ def verif_user (mail, mdp) :
     reponse = curseur.fetchone()
     connexion.close()
     return reponse
-
-def changer_mdp (mdp) :
-
-    connexion = sqlite3.Connection("bdd.sql")
-    curseur = connexion.cursor()
-
-    curseur.execute("UPDATE user SET mdp = ? WHERE mdp <> ?", (mdp))
-    connexion.commit()
-    connexion.close()
     
 #crer un ordinateur( id, marque, processeur, carte_graphique, ram, disque)
 def creer_ordinateur ( marque, processeur, carte_graphique, ram, disque):
@@ -227,27 +223,37 @@ def select_ordinateur(id):
     connexion = sqlite3.connect ('bdd.db')
     curseur = connexion.cursor()   
     curseur.execute ("SELECT * FROM ordinateur WHERE id=? ", (id,))
-    print (curseur.fetchone())
-    reponse=curseur.fetchone()
-    connexion.commit()
+    reponse=curseur.fetchall()
     connexion.close() 
     return reponse
 
 """Creation d'un ticket avec l'id, la date de cration du ticket, id du pret, son status ainsi que le message"""
-def creer_ticket(date_de_creation, id_pret, status, message):
+def creer_ticket(id_pret, message):
     connexion = sqlite3.connect("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("INSERT INTO Ticket VALUES (?, ?, ?, ?, ?)", (None, date_de_creation, id_pret, status, message))
+    curseur.execute("INSERT INTO Ticket VALUES (?, ?, ?, ?, ?)", (None,datetime.today().strftime('%Y-%m-%d'), id_pret, "En cours", message))
     connexion.commit()
     connexion.close()
+
+def user_total () :
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute(" SELECT COUNT() FROM user")
+    resultat = curseur.fetchone()
+    connexion.close
+    return resultat
 
 def select_ticket(id):
     connexion = sqlite3.connect("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("SELECT * FROM Ticket WHERE id =?", (id, ))
-    resultat = curseur.fetchone()
+    curseur.execute(""" SELECT * FROM Ticket 
+                        INNER JOIN carnet_pret 
+                            ON carnet_pret.reference_pc = Ticket.id_pret
+                        WHERE id_user = ?""", (id, ))
+    resultat = curseur.fetchall()
 
     connexion.close()
     return resultat
@@ -266,5 +272,69 @@ def mise_a_jour(status):
 
     curseur.execute("""UPDATE Ticket SET status =? WHERE id =?""", (status, ))
    
+    connexion.commit()
+    connexion.close()
+
+def calcul_pc () :
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute(" SELECT COUNT() FROM carnet_pret")
+    resultat = curseur.fetchone()
+    connexion.close()
+    return resultat
+
+def ticket_en_cours (status) :
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute(" SELECT COUNT() FROM Ticket WHERE status = ?", (status, ))
+    resultat = curseur.fetchone()
+    connexion.close
+    return resultat
+
+def ticket_terminé (status) :
+    connexion = sqlite3.connect("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute(" SELECT COUNT() FROM Ticket WHERE status =?", (status, ))
+    resultat = curseur.fetchone()
+    connexion.close
+    return resultat
+
+#crer un ordinateur( id, marque, processeur, carte_graphique, ram, disque)
+def creer_ordinateur (marque, processeur, carte_graphique, ram, disque):
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO ordinateur VALUES (?, ?, ?, ?, ?, ?)" , (None, marque, processeur, carte_graphique, ram, disque))
+    connexion.commit()
+    connexion.close()
+
+def delete_ordinateur ( id):
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()  
+    curseur.execute(("DELETE FROM ordinateur WHERE id=?"), (id,))
+    connexion.commit()
+    connexion.close()
+
+def lire_données_ordinateur ( id):
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()  
+    curseur.execute("SELECT * FROM ordinateur WHERE  id = ? ") , (id)
+    reponse=curseur.fetchall()
+    connexion.close()
+    return reponse 
+   
+def creer_carnet(reference_pc, id_user, id_ordinateur):
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()   
+    curseur.execute("INSERT INTO carnet_pret VALUES (?, ?, ?)" , (reference_pc, id_user, id_ordinateur))
+    connexion.commit()
+    connexion.close()
+
+def delete_carnet(reference_pc):
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()   
+    curseur.execute ("DELETE FROM carnet_pret WHERE reference_pc=?"), (reference_pc)
     connexion.commit()
     connexion.close()

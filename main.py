@@ -1,38 +1,48 @@
+from signal import pause
 import fonction
+import crud
 import os
+
+Quitter = False
 
 while True :
 
-    print("taper (1) pour s'inscrire    taper (2) pour se connecter")
+    # écran d'inscription / connexion
+    os.system("clear")
+    print("taper (1) pour s'inscrire\n taper (2) pour se connecter")
 
-    choix_login_sign = int(input())
+    commande = int(input())
 
-    if choix_login_sign == 1 :
+    if commande == 1 :
         
-        fonction.creation_compte(1)
+        fonction.creation_user()
 
-    elif choix_login_sign == 2 :
+    elif commande == 2 :
+        
+        user = fonction.connexion_user()
+        
+        if user == None :
 
-        while True :
+            fonction.afficher_erreur()
 
-            print("utilisateur taper (1)")
-            print("admin taper (2)")
+        else :
 
-            connexion = int(input())
+            if user[1] == 1 :
 
-            if connexion == 1 :
-
-                fonction.connexion_user()
-                
-            elif connexion == 2 :
-
-                fonction.connexion_admin()
+                #écran accueil admin
+                while True :
+                    
+                    print("Statistique : ")
+                    print("Nombre de pc en prêts : " + crud.calcul_pc())
+                    print("Nombre de ticket en cours : " + crud.ticket_en_cours("en cours"))
+                    print("Nombre de ticket terminés : " + crud.ticket_en_cours("terminé"))
             
             else :
-                print("veuillez entrez un chiffre valide")
-                pass
-    
+
+                #ecran accueil utilisateur
+                while True :
+                    pass
+
     else :
-        print("veuillez entrez un chiffre valide")
-        pass
+        fonction.afficher_erreur()
     

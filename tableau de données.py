@@ -81,6 +81,7 @@ curseur.execute('''
     '''
     )
 
+
 connexion.commit()
 connexion.close()
 
