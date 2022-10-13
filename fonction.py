@@ -1,5 +1,7 @@
+from urllib import response
 import crud 
 import os
+import time
 
 def creation_user () :
     """ fonction pour crée un compte pour l'utilisateur ou administrateur
@@ -82,6 +84,19 @@ def chat () :
 
     return crud.chat_ticket(chat_bot)
 
+def tickets_en_cours () :
+
+    resultat = crud.select_ticket()
+    resultat_pc = crud.select_carnet()
+
+    for i in range(len(resultat)):
+        print("Numéro PC :", resultat_pc[i][0])
+        print("Marque PC : ", resultat_pc[i][1])
+
+        for j in range(len(resultat_pc[0])):
+            print(resultat[i][j])
+            print("  ")
+            
 
 #ticket()
 #creer_admin()
