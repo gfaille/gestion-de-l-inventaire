@@ -8,7 +8,7 @@ quitter = True
 while quitter :
 
     # écran d'inscription / connexion
-    os.system("clear")
+    os.system("cls")
     print(" taper (1) pour s'inscrire\n taper (2) pour se connecter \n taper (3) pour quitter")
 
     commande = int(input())
@@ -29,18 +29,21 @@ while quitter :
 
             if user[1] == 1 :
 
+                os.system("cls")
                 #écran accueil admin
                 while True :
                     
                     print("Statistique : ")
+                    print("------------------------")
                     print("Nombre de pc en prêts : ", crud.calcul_pc())
                     print("Nombre de ticket en cours : ", crud.tickets("En cours"))
                     print("Nombre de ticket terminés : ", crud.tickets("terminé"))
-                    
+                    print("------------------------")
                     commande = input("P: crée un nouveau ordinateur,    A: ajoute un pc a un utilisateur,   \nT: voir vos tickets,    Q: quitter ")
 
                     if commande == "p" :
                         
+                        os.system("cls")
                         nb_pc = int(input("combien de pc voulez-vous crée"))
 
                         for _ in range(nb_pc) :
@@ -48,6 +51,7 @@ while quitter :
                     
                     elif commande == "a" :
                         
+                        os.system("cls")
                         print(crud.select_user_admin(), crud.select_ordinateur())
                         pc_pret = int(input("combien d'utilisateur seront assigner a un ordinateur"))
 
@@ -57,13 +61,49 @@ while quitter :
                         time.sleep(2)
                     
                     elif commande == "t" :
-                        pass
 
-                    elif commande == "q" :
+                        os.system("cls")
+                        print("Ticket en cours :")
+                        print("------------------------")
+
+                        while True :
+                            
+                            liste = fonction.tickets_en_cours()
+
+                            liste_id = [str(id[0]) for id in liste]
+                            print(liste_id)
+                            command = input("Entrez le numéro du ticket pour voir ce ticket en détail (Q : quitter)")
+
+                            if command in liste_id :
+
+                                os.system("cls")
+
+                                resultat_pc = crud.select_carnet()
+                                command = int(command)
+
+                                for i in range(len(liste)):
+                                    print("Numéro PC :", resultat_pc[i][0])
+                                    print("Marque PC : ", resultat_pc[i][1])
+
+                                    for j in range(len(liste[0])):
+                                        print(liste[command-1][j])
+                                        print("------------------------")
+                                
+                                command = input("m : ecrire un message, c : cloturer un ticket, q : quitter")
+
+                               
+
+                            elif commande == "q" :
+                                break
+
+                            else :
+                                fonction.afficher_erreur()
+
+                    elif commande == "0" :
                         break
 
                     else :
-                        pass
+                        fonction.afficher_erreur()
             
             else :
 
