@@ -1,6 +1,8 @@
 import sqlite3
 import hashlib
 from datetime import datetime
+from unittest import result
+from urllib import response
 
 def creer_user (prenom, nom, mdp, mail) :
     """ la fonction pour un créer utilisateur (prenom, nom, mdp) : 
@@ -181,7 +183,7 @@ def select_user_admin () :
     reponse = curseur.fetchall()
     connexion.close()
     return reponse
-    
+
 def creer_ordinateur (marque, processeur, carte_graphique, ram, disque) :
     """créer un ordinnateur dans la base de données
 
@@ -229,7 +231,7 @@ def select_ordinateur() :
     connexion = sqlite3.Connection ('bdd.sql')
     curseur = connexion.cursor() 
 
-    curseur.execute ("SELECT * FROM ordinateur")
+    curseur.execute ("SELECT id, marque FROM ordinateur")
 
     reponse = curseur.fetchall()
     connexion.close() 
@@ -270,15 +272,14 @@ def delete_carnet(reference_pc) :
     connexion.close()
 
 
-def select_carnet(reference_pc) :
+def select_carnet() :
 
     connexion = sqlite3.Connection ('bdd.sql')
     curseur = connexion.cursor()   
 
-    curseur.execute ("SELECT * FROM carnet_pret WHERE reference_pc = ? ", (reference_pc, ))
+    curseur.execute ("SELECT id_ordinateur, marque FROM carnet_pret INNER JOIN ordinateur ON carnet_pret.id_ordinateur = ordinateur.id")
 
     reponse = curseur.fetchall()
-    connexion.commit()
     connexion.close() 
     return reponse
 
@@ -290,7 +291,7 @@ def creer_ticket(id_pret, message) :
         message (string): ajout du message entrez par l'utilisateur
     """
 
-    connexion = sqlite3.connect("bdd.sql")
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
     curseur.execute("INSERT INTO Ticket VALUES (?, ?, ?, ?, ?)", (None,datetime.today().strftime('%Y-%m-%d'), id_pret, "En cours", message))
@@ -299,15 +300,12 @@ def creer_ticket(id_pret, message) :
     connexion.close()
 
 # id de l'utilisateur
-def select_ticket(id_user) :
+def select_ticket() :
 
-    connexion = sqlite3.connect("bdd.sql")
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute(""" SELECT * FROM Ticket 
-                        INNER JOIN carnet_pret 
-                            ON carnet_pret.reference_pc = Ticket.id_pret
-                        WHERE id_user = ?""", (id_user, ))
+    curseur.execute(" SELECT id, message FROM Ticket WHERE status = ?", ("En cours", ))
     resultat = curseur.fetchall()
 
     connexion.close()
@@ -322,7 +320,7 @@ def chat_ticket(id_ticket, utilisateur, chat_bot) :
         chat_bot (string): ajout du message de la personne (utilisateur, admin)
     """
 
-    connexion = sqlite3.connect("bdd.sql")
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
 
@@ -338,7 +336,7 @@ def supprimer_ticket(id_ticket) :
         id (int): l'id du ticket
     """
 
-    connexion = sqlite3.connect("bdd.sql")
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
     curseur.execute("DELETE FROM Ticket WHERE id = ?", (id_ticket, ))
@@ -353,7 +351,7 @@ def mise_a_jour(status) :
         status (string): donne le status
     """
 
-    connexion = sqlite3.connect("bdd.sql")
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
     curseur.execute("UPDATE Ticket SET status = ? WHERE id = ?", (status, ))
@@ -364,7 +362,7 @@ def mise_a_jour(status) :
 def calcul_pc () :
     """ fonction pour avoir le nombre total de pc préter"""
 
-    connexion = sqlite3.connect("bdd.sql")
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
     curseur.execute(" SELECT COUNT() FROM carnet_pret")
@@ -372,20 +370,23 @@ def calcul_pc () :
     connexion.close()
     return resultat
 
-def ticket_en_cours (status) :
-    connexion = sqlite3.connect("bdd.sql")
+def tickets (status) :
+
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
     curseur.execute(" SELECT COUNT() FROM Ticket WHERE status = ?", (status, ))
     resultat = curseur.fetchone()
-    connexion.close
+    connexion.close()
     return resultat
 
-def ticket_terminé (status) :
-    connexion = sqlite3.connect("bdd.sql")
+
+def select_id_user () :
+
+    connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute(" SELECT COUNT() FROM Ticket WHERE status =?", (status, ))
-    resultat = curseur.fetchone()
-    connexion.close
+    curseur.execute("SELECT id FROM user")
+    resultat = curseur.fetchall()
+    connexion.close()
     return resultat
