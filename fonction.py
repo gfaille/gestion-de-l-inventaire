@@ -39,7 +39,7 @@ def connexion_user () :
     return crud.verif_user(mail, mdp)
 
 def afficher_erreur () :
-    #os.system("clear")
+    os.system("cls")
     print("veuillez entrez une commande valide !")
 
 def creer_admin () :
@@ -95,7 +95,11 @@ def tickets_en_cours () :
 
         for j in range(len(resultat_pc[0])):
             print(resultat[i][j])
-            print("  ")
+            print("------------------------")
+    return resultat
+
+def afficher_ticket () :
+    pass
             
 
 #ticket()
