@@ -34,8 +34,8 @@ while quitter :
                     
                     print("Statistique : ")
                     print("Nombre de pc en prêts : ", crud.calcul_pc())
-                    print("Nombre de ticket en cours : ", crud.ticket_en_cours("en cours"))
-                    print("Nombre de ticket terminés : ", crud.ticket_en_cours("terminé"))
+                    print("Nombre de ticket en cours : ", crud.tickets("En cours"))
+                    print("Nombre de ticket terminés : ", crud.tickets("terminé"))
                     
                     commande = input("P: crée un nouveau ordinateur,    A: ajoute un pc a un utilisateur,   \nT: voir vos tickets,    Q: quitter ")
 
@@ -49,10 +49,12 @@ while quitter :
                     elif commande == "a" :
                         
                         print(crud.select_user_admin(), crud.select_ordinateur())
+                        pc_pret = int(input("combien d'utilisateur seront assigner a un ordinateur"))
 
-                        fonction.ajout_pc_user()
+                        for _ in range(pc_pret) :
+                            fonction.ajout_pc_user()
                         
-                        time.sleep(20)
+                        time.sleep(2)
                     
                     elif commande == "t" :
                         pass
