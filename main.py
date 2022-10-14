@@ -87,9 +87,27 @@ while quitter :
                                     print(liste[command-1][i])
                                     print("------------------------")
                                 
-                                command = input("m : ecrire un message, c : cloturer un ticket, q : quitter")
+                                commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter")
 
-                               
+                                if commande == "m" :
+                                    
+                                    resultat_ticket = liste[command-1][0]
+                                    
+                                    id_ticket = fonction.select_id_user()
+                                    chat_bot = input("Entrez votre message ici : ")
+                                    
+
+                                    crud.chat_ticket(id_ticket, resultat_ticket, chat_bot)
+                                    
+
+                                elif commande == "c":
+                                    pass
+
+                                elif commande == "q" :
+                                    pass
+
+                                else :
+                                    fonction.afficher_erreur()
 
                             elif command == "q" :
                                 break
