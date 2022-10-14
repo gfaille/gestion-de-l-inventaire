@@ -1,3 +1,4 @@
+import re
 from urllib import response
 import crud 
 import os
@@ -78,11 +79,6 @@ def ticket () :
 
     return crud.creer_ticket(ref, message)
 
-def chat () :
-
-    chat_bot = input("Entrez votre message ici : ")
-
-    return crud.chat_ticket(chat_bot)
 
 def tickets_en_cours () :
 
@@ -98,9 +94,12 @@ def tickets_en_cours () :
             print("------------------------")
     return resultat
 
-def afficher_ticket () :
-    pass
-            
+def select_id_user () :
+
+    resultat_user = crud.select_user_admin()
+
+    return resultat_user[0][2]
+        
 
 #ticket()
 #creer_admin()
