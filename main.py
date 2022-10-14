@@ -1,4 +1,3 @@
-from signal import pause
 import fonction
 import crud
 import os
