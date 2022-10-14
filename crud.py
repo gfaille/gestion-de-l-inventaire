@@ -324,7 +324,7 @@ def chat_ticket(id_ticket, utilisateur, chat_bot) :
     curseur = connexion.cursor()
 
 
-    curseur.execute("INSERT INTO Chat_Ticket VALUES (?, ?, ?, ?)", (datetime.today().strftime('%Y-%m-%d'), id_ticket, utilisateur, chat_bot))
+    curseur.execute("INSERT INTO Chat_Ticket VALUES (?, ?, ?, ?)", (None, id_ticket, utilisateur, chat_bot))
 
     connexion.commit()
     connexion.close()
