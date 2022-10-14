@@ -15,10 +15,10 @@ curseur = connexion.cursor()
 # creation de table "Ticket" (id, date_de_création, id_pret, status, message, foreign key)
 curseur.execute ('''CREATE TABLE Ticket
                     (
-                        id INT PRIMARY KEY,
+                        id INTEGER PRIMARY KEY,
                         date_de_création DATE,
-                        id_pret INT,
-                        status INT,
+                        id_pret INTEGER,
+                        status INTEGER,
                         message VARCHAR (255), 
                         FOREIGN KEY (id_pret)
                             REFERENCES Chat_Ticket(id)
@@ -28,7 +28,7 @@ curseur.execute ('''CREATE TABLE Ticket
 curseur.execute ('''CREATE TABLE Chat_Ticket
                     (
                         id INTEGER PRIMARY KEY,
-                        id_ticket INT,
+                        id_ticket INTEGER,
                         auteur VARCHAR (50),
                         message VARCHAR (255),
                         FOREIGN KEY (id_ticket)
@@ -58,8 +58,8 @@ curseur.execute ('''CREATE TABLE ordinateur
 curseur.execute ('''CREATE TABLE carnet_pret
                     (
                         reference_pc INT PRIMARY KEY,
-                        id_user INT,
-                        id_ordinateur INT,
+                        id_user INTEGER,
+                        id_ordinateur INTEGER,
                         FOREIGN KEY (id_user)
                             REFERENCES user(id),
                         FOREIGN KEY (id_ordinateur)
