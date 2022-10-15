@@ -344,17 +344,17 @@ def supprimer_ticket(id_ticket) :
     connexion.commit()
     connexion.close()
 
-def mise_a_jour(status) :
+def mise_a_jour(id_status) :
     """mise a jour du ticker
 
     Args:
-        status (string): donne le status
+        status (string): change le status
     """
 
     connexion = sqlite3.Connection("bdd.sql")
     curseur = connexion.cursor()
 
-    curseur.execute("UPDATE Ticket SET status = ? WHERE id = ?", (status, ))
+    curseur.execute("UPDATE Ticket SET status = 'terminé' WHERE id = ?", (id_status, ))
    
     connexion.commit()
     connexion.close()
