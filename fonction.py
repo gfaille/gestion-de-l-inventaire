@@ -94,11 +94,10 @@ def tickets_en_cours () :
             print("------------------------")
     return resultat
 
-def select_id_user () :
+def select_id_user (command) :
 
     resultat_user = crud.select_user_admin()
-
-    return resultat_user[0][1]
+    return resultat_user[command][2]
         
 
 #ticket()
