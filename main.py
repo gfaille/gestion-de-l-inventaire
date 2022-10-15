@@ -53,7 +53,7 @@ while quitter :
                         
                         os.system("clear")
                         print(crud.select_user_admin(), crud.select_ordinateur())
-                        pc_pret = int(input("combien d'utilisateur seront assigner a un ordinateur"))
+                        pc_pret = int(input("combien d'utilisateur seront assigner a un ordinateur "))
 
                         for _ in range(pc_pret) :
                             fonction.ajout_pc_user()
@@ -72,7 +72,7 @@ while quitter :
 
                             liste_id = [str(id[0]) for id in liste]
                             print(liste_id)
-                            command = input("Entrez le numéro du ticket pour voir ce ticket en détail (Q : quitter)")
+                            command = input("Entrez le numéro du ticket pour voir ce ticket en détail (Q : quitter) ")
 
                             if command in liste_id :
 
@@ -87,17 +87,25 @@ while quitter :
                                     print(liste[command-1][i])
                                     print("------------------------")
                                 
-                                commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter")
+                                commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter ")
 
                                 if commande == "m" :
                                     
-                                    resultat_ticket = liste[command-1][0]
+                                    id_ticket = liste[command-1][0]
                                     
-                                    id_ticket = fonction.select_id_user()
+                                    prenom_user = fonction.select_id_user(command-1)
                                     chat_bot = input("Entrez votre message ici : ")
                                     
+                                    envoi = input("e : envoyer, a : annuler ")
+                                    
+                                    if envoi == "e" :
+                                        crud.chat_ticket(id_ticket, prenom_user, chat_bot)
 
-                                    crud.chat_ticket(id_ticket, resultat_ticket, chat_bot)
+                                    elif envoi == "a" :
+                                        break
+
+                                    else :
+                                        fonction.afficher_erreur()
                                     
 
                                 elif commande == "c":
