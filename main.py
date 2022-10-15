@@ -109,10 +109,14 @@ while quitter :
                                     
 
                                 elif commande == "c":
-                                    pass
+
+                                    id_ticket = liste[command-1][0]
+                                    
+                                    crud.mise_a_jour(id_ticket)
+
 
                                 elif commande == "q" :
-                                    pass
+                                    break
 
                                 else :
                                     fonction.afficher_erreur()
@@ -124,7 +128,7 @@ while quitter :
                                 fonction.afficher_erreur()
 
                     elif commande == "q" :
-                        break
+                        exit()
 
                     else :
                         fonction.afficher_erreur()
