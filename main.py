@@ -32,6 +32,20 @@ while quitter :
                 os.system("clear")
                 #écran accueil admin
                 while True :
+
+                    """ boucle while affiche l'ecran d'accueil 
+
+                        affiche :
+                        le nombre de pc prêter
+                        le nombre de ticket en cour
+                        le nombre de ticket terminé
+
+                        demande a l'utilisateur :
+                        créer un nouvelle ordinateur (ajout un ordinateur dans la base de données)
+                        assigne un pc a un utilisateur
+                        voir ses ticket en cour (en détail)  
+                        quitter
+                    """
                     
                     print("Statistique : ")
                     print("------------------------")
@@ -42,6 +56,15 @@ while quitter :
                     commande = input("P: crée un nouveau ordinateur,    A: ajoute un pc a un utilisateur,   \nT: voir vos tickets,    Q: quitter ")
 
                     if commande == "p" :
+
+                        """ si command est égal a "p" alors
+
+                            on efface se qui précéde dans la console (pour une meilleur affichage)
+                            demande a l'admin combien de pc qu'il veut créer
+
+                            boucle for qui repete selon le nombre de pc qui veut créer
+                                fonction qui ajout les pc 
+                        """
                         
                         os.system("clear")
                         nb_pc = int(input("combien de pc voulez-vous crée"))
@@ -50,6 +73,16 @@ while quitter :
                             fonction.ajout_ordinnateur()
                     
                     elif commande == "a" :
+
+                        """ si command est égal a "a" alors
+
+                            on efface se qui précéde dans la console (pour une meilleur affichage)
+                            affiche les utilisateur et les ordinateur
+                            demande combien de pc seront assigner a un utilisateur
+
+                            boucle for qui repete selon le nombre de pc qui veut assigné a un utilisateur 
+                                fonction pour assigné un pc a un utilisateur
+                        """
                         
                         os.system("clear")
                         print(crud.select_user_admin(), crud.select_ordinateur())
@@ -62,11 +95,26 @@ while quitter :
                     
                     elif commande == "t" :
 
+                        """ si command est égal a "t" alors
+
+                            on efface se qui précéde dans la console (pour une meilleur affichage)
+                            affiche "tickets en cours :" et une séparation
+                        """
+
                         os.system("clear")
                         print("Ticket en cours :")
                         print("------------------------")
 
                         while True :
+
+                            """ boucle while pour afficher les tickets en cours
+
+                                variable qui contient ce que retourne la fonction ticket_en_cours
+
+                                variable qui contient une liste avec une boucle for pour avoir que les id
+                                affiche la liste des id
+                                demande a l'admin d'entrez le numéro du ticket ou de quitter
+                            """
                             
                             liste = fonction.tickets_en_cours()
 
@@ -75,6 +123,27 @@ while quitter :
                             command = input("Entrez le numéro du ticket pour voir ce ticket en détail (Q : quitter) ")
 
                             if command in liste_id :
+
+                                """ si command est égal à l'id de la liste alors
+
+                                    on efface se qui précéde dans la console (pour une meilleur affichage)
+
+                                    stocke dans une variable :
+                                    se qui est selection dans le crud 
+                                    command entrez par l'admin en entier (pour éviter tout probleme)
+
+                                    affiche :
+                                    le numéro du pc
+                                    la marque du pc
+
+                                    boucle for qui repete selon la longeur de la liste
+                                        affiche la liste (une fois l'id puis le message)
+                                    
+                                    demande a l'utilisateur :
+                                    écrire un message
+                                    cloturer le ticket 
+                                    quitter
+                                """
 
                                 os.system("clear")
 
@@ -90,6 +159,17 @@ while quitter :
                                 commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter ")
 
                                 if commande == "m" :
+
+                                    """ si commande est égal à "m" alors
+
+                                        stocke dans des variables :
+                                        liste [command-1][0] pour avoir la bonne ligne et colone (id)
+
+                                        fonction pour avoir le prenom de l'utilisateur
+                                        message ecrit par l'admin
+
+                                        demande a l'admin d'envoyer ou annuler
+                                    """
                                     
                                     id_ticket = liste[command-1][0]
                                     
@@ -99,16 +179,36 @@ while quitter :
                                     envoi = input("e : envoyer, a : annuler ")
                                     
                                     if envoi == "e" :
+
+                                        """ si envoi est égal à "e" alors 
+
+                                            envoi les donner dans le crud pour enregistre dans la base de données 
+                                        """
                                         crud.chat_ticket(id_ticket, prenom_user, chat_bot)
 
                                     elif envoi == "a" :
+
+                                        """ si envoi est égal à "a" alors
+
+                                            sorti de la boucle
+                                        """
                                         break
 
                                     else :
+
+                                        #sinon affiche message d'erreur
                                         fonction.afficher_erreur()
                                     
 
                                 elif commande == "c":
+
+                                    """ si commande est égal à "c" alors
+
+                                        stocke dans une variable :
+                                        liste [command-1][0] pour avoir la bonne ligne et colone (id)
+
+                                        envoi l'id pour mettre a jour la base de données
+                                    """
 
                                     id_ticket = liste[command-1][0]
                                     
@@ -116,21 +216,44 @@ while quitter :
 
 
                                 elif commande == "q" :
+
+                                    """ si envoi est égal à "q" alors
+
+                                        sorti de la boucle
+                                    """
+
                                     break
 
                                 else :
+
+                                    #sinon affiche message d'erreur
                                     fonction.afficher_erreur()
 
                             elif command == "q" :
+
+                                """ si envoi est égal à "q" alors
+
+                                    sorti de la boucle
+                                """
+
                                 break
 
                             else :
+
+                                #sinon affiche message d'erreur
                                 fonction.afficher_erreur()
 
                     elif commande == "q" :
+
+                        """ si envoi est égal à "q" alors
+
+                            arrêt total
+                        """
                         exit()
 
                     else :
+
+                        #sinon affiche message d'erreur
                         fonction.afficher_erreur()
             
             else :
