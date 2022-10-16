@@ -260,7 +260,64 @@ while quitter :
 
                 #ecran accueil utilisateur
                 while True :
-                    pass
+                    
+                    os.system("clear")
+                    print("ordinateur qui vous est assigner ")
+                    result = crud.select_carnet_user(user[0])
+
+                    for i in range(len(result)):
+                        print(result[i])   
+                    
+                    commande = input("t : créer un ticket, v : voir ses ticket q : quitter ")
+
+                    if commande == "t" :
+
+                        os.system("clear")
+                        fonction.ticket()
+                    
+                    elif commande == "v":
+                        
+                        #os.system("clear")
+                        id_ticket = fonction.ticket_user(user[0])
+
+                        liste_id = [str(id[0]) for id in id_ticket]
+                        print(liste_id)
+                        command = input("entrez la refence du pc, q : quitter ")
+
+                        while True :
+
+                            if command in liste_id :
+
+                                ref_pc = liste_id.index(command)
+                                resultat = crud.select_ticket_user(liste_id[ref_pc])
+
+                                resultat_pc = crud.select_carnet_user(user[0])
+
+                                print(resultat_pc[ref_pc][0])
+                                print(resultat_pc[ref_pc][2])
+
+                                for i in range(len(resultat[0])):
+                                        print(resultat[ref_pc][i])
+                                        print("------------------------")
+                                    
+                                commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter ")
+
+                            elif commande == "q" :
+                                break
+
+                            else :
+                                fonction.afficher_erreur()
+                        
+                    elif commande == "q" :
+
+                        """ si envoi est égal à "q" alors
+
+                            arrêt total
+                        """
+                        exit()
+
+                    else :
+                        fonction.afficher_erreur()
 
     elif commande == 3 :
         quitter = False

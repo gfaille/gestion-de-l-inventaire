@@ -1,4 +1,5 @@
 import re
+from unittest import result
 from urllib import response
 import crud 
 import os
@@ -99,6 +100,22 @@ def select_id_user (command) :
     resultat_user = crud.select_user_admin()
     return resultat_user[command][2]
         
+def ticket_user (id_user) :
+    
+    resultat_pc = crud.select_carnet_user(id_user)
+
+    for i in range(len(resultat_pc)) :
+        print(resultat_pc[i][0])
+        print(resultat_pc[i][2])
+
+        for j in range(len(resultat_pc)):
+            ref_pc = resultat_pc[i][0]
+            print(crud.select_ticket_user(ref_pc)[0][j])
+            print("--------------------------------------")
+
+    return resultat_pc         
+        
+
 
 #ticket()
 #creer_admin()

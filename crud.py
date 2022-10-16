@@ -231,7 +231,7 @@ def select_ordinateur() :
     connexion = sqlite3.Connection ('bdd.sql')
     curseur = connexion.cursor() 
 
-    curseur.execute ("SELECT id, marque FROM ordinateur")
+    curseur.execute ("""SELECT * FROM ordinateur""")
 
     reponse = curseur.fetchall()
     connexion.close() 
@@ -278,6 +278,20 @@ def select_carnet() :
     curseur = connexion.cursor()   
 
     curseur.execute ("SELECT id_ordinateur, marque FROM carnet_pret INNER JOIN ordinateur ON carnet_pret.id_ordinateur = ordinateur.id")
+
+    reponse = curseur.fetchall()
+    connexion.close() 
+    return reponse
+
+def select_carnet_user(id_user) :
+
+    connexion = sqlite3.Connection ('bdd.sql')
+    curseur = connexion.cursor()   
+
+    curseur.execute ("""SELECT reference_pc, id, marque, processeur, carte, ram, disque FROM carnet_pret 
+                        INNER JOIN ordinateur 
+                        ON carnet_pret.id_ordinateur = ordinateur.id
+                        WHERE id_user = ?""", (id_user, ))
 
     reponse = curseur.fetchall()
     connexion.close() 
@@ -388,5 +402,16 @@ def select_id_user () :
 
     curseur.execute("SELECT id FROM user")
     resultat = curseur.fetchall()
+    connexion.close()
+    return resultat
+
+def select_ticket_user (ref_pc) :
+    
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()
+    
+    curseur.execute(" SELECT id, message FROM Ticket WHERE status = ? AND id_pret = ?", ("En cours", ref_pc, ))
+    resultat = curseur.fetchall()
+
     connexion.close()
     return resultat
