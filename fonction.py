@@ -74,14 +74,27 @@ def ticket () :
     Returns:
         string: ajout de la référence du pc et le message
     """
+    ref_pc = crud.select_ticket_ref_pc ()
 
-    ref = input("reference pc")
-    message = input("ecrire message")
+    ref = input("reference pc : ")
+    message = input("ecrire message : ")
 
-    return crud.creer_ticket(ref, message)
+    id_ticket = ref_pc
+    liste_id = [str(id[0]) for id in id_ticket]
+    print(liste_id)
+    if ref in liste_id :
+        return print("trop de ticket en cours")
+    else :
+        return crud.creer_ticket(ref, message)
 
 
 def tickets_en_cours () :
+
+    """fonction pour afficher les ticket en cours a l'admin
+
+    Returns:
+        variable: retourn la variable
+    """
 
     resultat = crud.select_ticket()
     resultat_pc = crud.select_carnet()
@@ -97,10 +110,22 @@ def tickets_en_cours () :
 
 def select_id_user (command) :
 
+    """fonction pour selectionner l'id de l'utilisateur
+
+    Returns:
+        variable: retourn l'id de lutilisateur
+    """
+
     resultat_user = crud.select_user_admin()
     return resultat_user[command][2]
         
 def ticket_user (id_user) :
+
+    """fonction pour afficher les ticket de l'utilisateur
+
+    Returns:
+        variable: renvoi la variable 
+    """
     
     resultat_pc = crud.select_carnet_user(id_user)
 
@@ -114,8 +139,3 @@ def ticket_user (id_user) :
             print("--------------------------------------")
 
     return resultat_pc         
-        
-
-
-#ticket()
-#creer_admin()

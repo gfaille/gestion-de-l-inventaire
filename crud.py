@@ -343,6 +343,18 @@ def chat_ticket(id_ticket, utilisateur, chat_bot) :
     connexion.commit()
     connexion.close()
 
+def chat (id_ticket) :
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()
+
+    curseur.execute("SELECT message FROM chat_Ticket WHERE id_ticket = ?", (id_ticket,))
+
+    resultat = curseur.fetchall()
+
+    connexion.close()
+    return resultat
+
+
 def supprimer_ticket(id_ticket) :
     """fonction pour supprimer le ticket
 
@@ -411,6 +423,17 @@ def select_ticket_user (ref_pc) :
     curseur = connexion.cursor()
     
     curseur.execute(" SELECT id, message FROM Ticket WHERE status = ? AND id_pret = ?", ("En cours", ref_pc, ))
+    resultat = curseur.fetchall()
+
+    connexion.close()
+    return resultat
+
+def select_ticket_ref_pc () :
+    
+    connexion = sqlite3.Connection("bdd.sql")
+    curseur = connexion.cursor()
+    
+    curseur.execute(" SELECT id_pret FROM Ticket WHERE status = ?", ("En cours", ))
     resultat = curseur.fetchall()
 
     connexion.close()

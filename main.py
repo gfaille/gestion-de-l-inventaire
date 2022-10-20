@@ -67,7 +67,7 @@ while quitter :
                         """
                         
                         os.system("clear")
-                        nb_pc = int(input("combien de pc voulez-vous crée"))
+                        nb_pc = int(input("combien de pc voulez-vous crée : "))
 
                         for _ in range(nb_pc) :
                             fonction.ajout_ordinnateur()
@@ -149,11 +149,15 @@ while quitter :
 
                                 resultat_pc = crud.select_carnet()
                                 command = int(command)
+                                chat = crud.chat(command)
 
                                 print("Numéro PC :", resultat_pc[command-1][0])
                                 print("Marque PC : ", resultat_pc[command-1][1])
                                 for i in range(len(liste[0])):
                                     print(liste[command-1][i])
+                                    print("------------------------")
+                                for j in range(len(chat)) :
+                                    print(chat[j][0])
                                     print("------------------------")
                                 
                                 commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter ")
@@ -260,6 +264,49 @@ while quitter :
 
                 #ecran accueil utilisateur
                 while True :
+
+                    """ boucle while qui affiche l'ecran d'accueil utilisateur
+
+                        efface se qui precede
+                        affiche les ordinateur qui sont assigner a l'utilisateur
+
+                        si commande est egal a "t" alors
+                            efface se qui precede
+                            appel la fonction ticket (pour creer un ticket)
+                        
+                        est si commande est egal a "v" alors
+                            une boucle while
+                                efface se qui precede
+                                variable qui stocke et affiche les ticket de l'utilisateur
+                                variable qui stocke les id des ticket en str
+                                demande a l'utilisateur d'entrez la reference du pc
+                                
+                                si command est dans la liste_id alors
+                                    efface se qui precede
+                                        on stocke dans des variable :
+                                        - l'index de liste_id 
+                                        - le ticket selectionner
+                                        - le carnet de l'utilisateur
+                                        - le chat ticket
+                                    affiche ses ticket et le chat
+                                    on demande soit decrire un message ou fermer
+
+                                    si commande est egal a "m" alors
+                                        on stocke l'id du ticket
+                                        le prenom de l'utilisateur
+                                        le message entrez par l'utilisateur
+
+                                        on demande a l'utilisateur de l'envoyer ou l'annuler
+
+                                        si commande est egal a "e" alors 
+                                            envoi le message dans la bdd
+                                        est si commande est egal a "a" alors
+                                            annule le message
+
+                        est si commande est egal a "q" alors
+                            on break
+                        sinon affiche l'erreur 
+                    """
                     
                     os.system("clear")
                     print("ordinateur qui vous est assigner ")
@@ -277,33 +324,70 @@ while quitter :
                     
                     elif commande == "v":
                         
-                        #os.system("clear")
-                        id_ticket = fonction.ticket_user(user[0])
-
-                        liste_id = [str(id[0]) for id in id_ticket]
-                        print(liste_id)
-                        command = input("entrez la refence du pc, q : quitter ")
-
                         while True :
+
+                            os.system("clear")
+                            liste = fonction.ticket_user(user[0])
+
+                            liste_id = [str(id[0]) for id in liste]
+                            print(liste_id)
+                            command = input("entrez la refence du pc, q : quitter ")
+
 
                             if command in liste_id :
 
+                                os.system("clear")
                                 ref_pc = liste_id.index(command)
                                 resultat = crud.select_ticket_user(liste_id[ref_pc])
-
                                 resultat_pc = crud.select_carnet_user(user[0])
+                                chat = crud.chat(resultat[0][0])
 
                                 print(resultat_pc[ref_pc][0])
                                 print(resultat_pc[ref_pc][2])
 
                                 for i in range(len(resultat[0])):
-                                        print(resultat[ref_pc][i])
+                                        print(resultat[0][i])
                                         print("------------------------")
-                                    
-                                commande = input("m : ecrire un message, c : cloturer un ticket, q : quitter ")
 
-                            elif commande == "q" :
-                                break
+                                for j in range(len(chat)) :
+                                    print(chat[j][0])
+                                    print("------------------------")
+                                
+                                commande = input("m : ecrire un message, q : quitter ")
+
+                                if commande == "m" :
+
+                                    id_ticket = resultat[0][0]
+                                    prenom_user = user[2]
+                                    chat_bot = input("Entrez votre message ici : ")
+                                    
+                                    envoi = input("e : envoyer, a : annuler ")
+                                    
+                                    if envoi == "e" :
+
+                                        """ si envoi est égal à "e" alors 
+
+                                            envoi les donner dans le crud pour enregistre dans la base de données 
+                                        """
+                                        crud.chat_ticket(id_ticket, prenom_user, chat_bot)
+                                        print("message bien envoyer")
+                                        break
+
+                                    elif envoi == "a" :
+
+                                        """ si envoi est égal à "a" alors
+
+                                            sorti de la boucle
+                                        """
+                                        break
+
+                                    else :
+
+                                        #sinon affiche message d'erreur
+                                        fonction.afficher_erreur()
+
+                                elif commande == "q" :
+                                    break
 
                             else :
                                 fonction.afficher_erreur()
